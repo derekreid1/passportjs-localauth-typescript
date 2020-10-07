@@ -2,10 +2,10 @@
   "name": "TypeScriptPassportjs",
   "version": "1.0.0",
   "description": "",
-  "main": "App.ts",
+  "main": "dist/App.js",
   "scripts": {
     "prestart": "tsc",
-    "start": "node ./dist/App.js",
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "passport": "^0.4.1",
