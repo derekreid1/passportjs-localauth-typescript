@@ -11,7 +11,7 @@ passport.use(
     async (username: string, password: string, done: Function) => {
       // Match user
       const user = await User.findOne({
-        where: { username: username },
+        where: { username },
       });
       if (!user) {
         return done(null, false);

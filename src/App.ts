@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import passport from "./middleware/passportConfig";
 import session from "express-session";
@@ -6,9 +7,12 @@ import cookieParser from "cookie-parser";
 import User, { UserInstance } from "./models/User";
 import ensureAuthentication from "./middleware/ensureAuthentication";
 
+dotenv.config();
+
 const app = express();
+const port = process.env.SERVER_PORT;
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -36,8 +40,8 @@ app.get(
 );
 
 app.get("/dashboard", ensureAuthentication, (req: Request, res: Response) => {
-  const user = <UserInstance>req.user;
-  res.render(__dirname + "/public/dashboard", { user: user });
+  const user = req.user as UserInstance;
+  res.render(__dirname + "/public/dashboard", { user });
 });
 
 app.post("/login", (req: Request, res: Response, next: NextFunction) => {
@@ -48,7 +52,7 @@ app.post("/login", (req: Request, res: Response, next: NextFunction) => {
     } else {
       req.logIn(user, (err) => {
         if (err) throw err;
-        //res.json({auth: true, userid: user.id});
+        // res.json({auth: true, userid: user.id});
         res.redirect("/dashboard");
       });
     }
@@ -60,6 +64,6 @@ User.create({
   password: "admin",
 }).catch((err: any) => console.log(err));
 
-app.listen(8000, () =>
-  console.log(`Server running at http://localhost:${8000}`)
+app.listen(port, () =>
+  console.log(`Server running at http://localhost:${port}`)
 );
