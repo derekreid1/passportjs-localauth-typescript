@@ -7,8 +7,8 @@ import User, { UserInstance } from "./models/User";
 import ensureAuthentication from "./middleware/ensureAuthentication";
 
 const app = express();
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -24,20 +24,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req: Request, res: Response) => {
-  res.render(__dirname + '/public/index');
+  res.render(__dirname + "/public/index");
 });
 
 app.get(
   "/usersettings",
   ensureAuthentication,
   (req: Request, res: Response) => {
-    res.render(__dirname + '/public/usersettings');
+    res.render(__dirname + "/public/usersettings");
   }
 );
 
 app.get("/dashboard", ensureAuthentication, (req: Request, res: Response) => {
   const user = <UserInstance>req.user;
-  res.render(__dirname + '/public/dashboard', {user: user});
+  res.render(__dirname + "/public/dashboard", { user: user });
 });
 
 app.post("/login", (req: Request, res: Response, next: NextFunction) => {
