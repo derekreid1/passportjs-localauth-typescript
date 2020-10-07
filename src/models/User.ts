@@ -2,13 +2,13 @@ import { DataTypes, Model, Optional } from "sequelize";
 import bcrypt from 'bcrypt';
 import sequelize from '../middleware/database';
 
-interface UserAttributes {
+export interface UserAttributes {
     id: number,
     username: string,
     password: string
 }
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
-interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes{}
+export interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+export interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes{}
 
 const User = sequelize.define<UserInstance>('User', {
     id: {

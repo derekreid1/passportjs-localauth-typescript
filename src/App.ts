@@ -3,7 +3,7 @@ import passport from './middleware/passportConfig';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import User from './models/User';
+import User, { UserInstance } from './models/User';
 import ensureAuthentication from './middleware/ensureAuthentication';
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-
+app.use(express.json());
 app.use(cookieParser("secretcode"));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,8 +36,9 @@ app.get('/', (req, res) => {
     </form>`);
 });
 
-app.get('/yo', ensureAuthentication, (req, res) => {
-    res.send('yo');
+app.get('/usersettings', ensureAuthentication, (req, res) => {
+    const user = <UserInstance> req.user;
+    res.send(`<h1>Welcome to users setting ${user.username}</h1>`);
 })
 
 app.get('/dashboard', ensureAuthentication, (req, res) => {
