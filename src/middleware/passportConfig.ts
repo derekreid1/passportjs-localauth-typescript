@@ -1,11 +1,12 @@
 import passport from "passport";
 import passportLocal from 'passport-local';
 import bcrypt from 'bcrypt';
-import User from "../models/User";
+import User, { UserInstance } from "../models/User";
+
 const LocalStrategy = passportLocal.Strategy;
 
 passport.use(new LocalStrategy({ usernameField: 'username' },
-    async (username, password, done) => {
+    async (username: string, password: string, done: Function) => {
         // Match user
         const user = await User.findOne({
             where: { username: username }
@@ -26,12 +27,12 @@ passport.use(new LocalStrategy({ usernameField: 'username' },
     })
 );
 
-passport.serializeUser((user: any, done: any) => {
+passport.serializeUser((user: UserInstance, done: Function) => {
     done(null, user.id);
 });
 
-passport.deserializeUser((id: number, done: any) => {
-    User.findByPk(id).then((user: any) => {
+passport.deserializeUser((id: number, done: Function) => {
+    User.findByPk(id).then((user: UserInstance) => {
         if (user) {
             done(null, user.get());
         } else {
