@@ -1,0 +1,9 @@
+const ensureAuthentication = (req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    } else {
+        res.json({error: 'No authentication'});
+    }
+}
+
+export default ensureAuthentication;

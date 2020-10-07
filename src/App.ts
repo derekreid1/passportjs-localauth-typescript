@@ -4,6 +4,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import User from './models/User';
+import ensureAuthentication from './middleware/ensureAuthentication';
 
 const app = express();
 app.use(bodyParser.json());
@@ -35,7 +36,11 @@ app.get('/', (req, res) => {
     </form>`);
 });
 
-app.get('/dashboard', (req, res) => {
+app.get('/yo', ensureAuthentication, (req, res) => {
+    res.send('yo');
+})
+
+app.get('/dashboard', ensureAuthentication, (req, res) => {
     res.send('Hello man');
 })
 app.post('/login', (req, res, next) => {
