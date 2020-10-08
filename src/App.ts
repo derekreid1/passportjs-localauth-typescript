@@ -39,13 +39,17 @@ app.get(
   }
 );
 
-app.get("/dashboard", ensureAuthentication, (req: Request, res: Response) => {
-  const user = req.user as UserInstance;
-  res.render(__dirname + "/views/dashboard", { user });
-});
+app.get(
+  "/dashboard",
+  ensureAuthentication,
+  (req: Request, res: Response): void => {
+    const user = req.user as UserInstance;
+    res.render(__dirname + "/views/dashboard", { user });
+  }
+);
 
-app.post("/login", (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate("local", (err: Error, user: UserInstance) => {
+app.post("/login", (req: Request, res: Response, next: NextFunction): void => {
+  passport.authenticate("local", (err: Error, user: UserInstance): void => {
     if (err) throw err;
     if (!user) {
       res.send("No user exists");
