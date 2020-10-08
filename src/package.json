@@ -2,7 +2,7 @@
   "name": "TypeScriptPassportjs",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/App.js",
+  "main": "./dist/App.js",
   "scripts": {
     "clean": "rimraf dist/*",
     "copy-assets": "ts-node tools/copyAssets",
