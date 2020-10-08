@@ -1,14 +1,21 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import bcrypt from "bcrypt";
-import User, { UserInstance } from "../models/User";
+import User, { UserAttributes, UserInstance } from "../models/User";
 
 const LocalStrategy = passportLocal.Strategy;
+
+// Call Signature for function done()
+interface Done {
+  (err: Error, user?: UserAttributes);
+  (err: Error, auth: boolean);
+  (err: Error, id: number);
+}
 
 passport.use(
   new LocalStrategy(
     { usernameField: "username" },
-    async (username: string, password: string, done: Function) => {
+    async (username: string, password: string, done: Done) => {
       // Match user
       const user = await User.findOne({
         where: { username },
@@ -30,18 +37,21 @@ passport.use(
   )
 );
 
-passport.serializeUser((user: UserInstance, done: Function) => {
+passport.serializeUser((user: UserInstance, done: Done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id: number, done: Function) => {
-  User.findByPk(id).then((user: UserInstance) => {
+passport.deserializeUser(async (id: number, done: Done) => {
+  try {
+    const user = await User.findByPk(id);
     if (user) {
       done(null, user.get());
     } else {
       done(null, null);
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default passport;

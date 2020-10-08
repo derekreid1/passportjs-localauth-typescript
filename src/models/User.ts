@@ -7,8 +7,7 @@ export interface UserAttributes {
   username: string;
   password: string;
 }
-export interface UserCreationAttributes
-  extends Optional<UserAttributes, "id"> {}
+export type UserCreationAttributes = Optional<UserAttributes, "id">;
 export interface UserInstance
   extends Model<UserAttributes, UserCreationAttributes>,
     UserAttributes {}
@@ -31,7 +30,7 @@ const User = sequelize.define<UserInstance>("User", {
       const password = this.getDataValue("password");
       return password;
     },
-    set(value: any) {
+    set(value: string) {
       const hashed = bcrypt.hashSync(value, 10);
       this.setDataValue("password", hashed);
     },

@@ -4,9 +4,9 @@ const ensureAuthentication = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): void => {
   if (req.isAuthenticated()) {
-    return next();
+    next();
   } else {
     res.json({ error: "No authentication" });
   }

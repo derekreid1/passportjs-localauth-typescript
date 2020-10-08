@@ -28,24 +28,24 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req: Request, res: Response) => {
-  res.render(__dirname + "/public/index");
+  res.render(__dirname + "/views/index");
 });
 
 app.get(
   "/usersettings",
   ensureAuthentication,
   (req: Request, res: Response) => {
-    res.render(__dirname + "/public/usersettings");
+    res.render(__dirname + "/views/usersettings");
   }
 );
 
 app.get("/dashboard", ensureAuthentication, (req: Request, res: Response) => {
   const user = req.user as UserInstance;
-  res.render(__dirname + "/public/dashboard", { user });
+  res.render(__dirname + "/views/dashboard", { user });
 });
 
 app.post("/login", (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", (err: Error, user: UserInstance) => {
     if (err) throw err;
     if (!user) {
       res.send("No user exists");
@@ -62,7 +62,7 @@ app.post("/login", (req: Request, res: Response, next: NextFunction) => {
 User.create({
   username: "admin",
   password: "admin",
-}).catch((err: any) => console.log(err));
+}).catch((err: Error) => console.log(err));
 
 app.listen(port, () =>
   console.log(`Server running at http://localhost:${port}`)
