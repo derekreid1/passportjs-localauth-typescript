@@ -1,0 +1,35 @@
+body {
+  background-color: #eeeeee;
+  font-size: 26px;
+}
+
+.wrapper {
+  width: 700px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+header,
+footer {
+  background-color: ghostwhite;
+  padding: 20px;
+}
+
+.loginform {
+  width: 500px;
+  margin: 1rem auto;
+  background-color: blanchedalmond;
+  padding: 1rem 1rem;
+}
+
+main {
+  background-color: cornsilk;
+  padding: 20px;
+  gap: 10px;
+}
+
+.layout-sidebar {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}

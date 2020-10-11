@@ -2,7 +2,7 @@
   "name": "TypeScriptPassportjs",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/App.js",
+  "main": "./dist/app.js",
   "scripts": {
     "clean": "rimraf dist/*",
     "copy-assets": "ts-node tools/copyAssets",
@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.8",
+    "@types/express-ejs-layouts": "^2.3.2",
     "@types/express-session": "^1.17.0",
     "@types/fs-extra": "^9.0.1",
     "@types/shelljs": "^0.8.8",
