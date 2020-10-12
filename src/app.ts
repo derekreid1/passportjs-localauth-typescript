@@ -90,6 +90,7 @@ app.get(
 
 app.get("/logout", (req: Request, res: Response) => {
   req.logOut();
+  res.redirect("/");
 });
 
 app.post("/login", (req: Request, res: Response, next: NextFunction): void => {
