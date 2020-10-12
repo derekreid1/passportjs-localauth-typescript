@@ -19,5 +19,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
-      - run: cd passport-js-localauth-typescript && npm i
+      - run: npm i
       - run: npm start dev
