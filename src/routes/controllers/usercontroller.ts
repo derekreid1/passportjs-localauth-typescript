@@ -1,7 +1,8 @@
 import { Router, Request, Response } from "express";
 import sequelize from "../../middleware/database";
 import User from "../../models/user";
-
+import axios from "axios";
+import passport from "passport";
 const router = Router();
 
 router.route("/users").get(getUsers).post(createUser);
@@ -27,7 +28,11 @@ async function createUser(req: Request, res: Response): Promise<void> {
       );
       return user;
     });
-    res.json(result);
+
+    req.logIn(result, (err: Error) => {
+      if (err) throw new Error("Error at: req.logIn");
+      res.redirect("/dashboard");
+    });
   } catch (error) {
     res.json(error);
   }

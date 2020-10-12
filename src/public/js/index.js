@@ -1,8 +1,17 @@
-function showForm() {
+function showLoginForm() {
   const form = document.querySelector('.loginform');
-  if(form.style.visibility == 'hidden') {
-    form.style.visibility = "visible";
+  if(form.style.display == 'none') {
+    form.style.display = "block";
   } else {
-    form.style.visibility = "hidden";
+    form.style.display = "none";
+  }
+}
+
+function showCreateForm() {
+  const form = document.querySelector('.createaccountform');
+  if(form.style.display == 'none') {
+    form.style.display = "block";
+  } else {
+    form.style.display = "none";
   }
 }

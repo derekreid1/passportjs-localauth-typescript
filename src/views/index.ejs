@@ -1,5 +1,10 @@
 <h1>Home Page</h1>
-<button onclick="showForm()">Log In Form</button>
+<button onclick="showLoginForm()">Log In</button>
+<button onclick="showCreateForm()">Create Account</button>
+<form action="/google">
+  <input type="submit" value="Sign in with Google" />
+</form>
 <%- include("./partials/loginform.ejs") %> <%-
 include("./partials/createaccountform.ejs") %>
+
 <script src="js/index.js"></script>

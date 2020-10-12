@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import cors from "cors";
 import express, { Request, Response, NextFunction } from "express";
 import passport from "./middleware/passportConfig";
 import session from "express-session";
@@ -7,10 +8,8 @@ import ensureAuthentication from "./middleware/ensureAuthentication";
 import expressLayouts from "express-ejs-layouts";
 import router from "./routes/controllers/usercontroller";
 import { UserInstance } from "./models/user";
-import sqliteStoryFactory from "express-session-sqlite";
 dotenv.config();
 
-const SqliteStore = sqliteStoryFactory(session);
 const app = express();
 const port = process.env.SERVER_PORT;
 
@@ -18,11 +17,13 @@ app.use(expressLayouts);
 app.use(express.static("public"));
 app.use("/css", express.static(__dirname + "public/css"));
 app.use("/js", express.static(__dirname + "public/js"));
+app.use("/img", express.static(__dirname + "public/img"));
 app.set("layout", "./layouts/full-width.ejs");
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 app.use(
   session({
     secret: "secretcode",
@@ -86,6 +87,10 @@ app.get(
     failureRedirect: "/auth/google/failure",
   })
 );
+
+app.get("/logout", (req: Request, res: Response) => {
+  req.logOut();
+});
 
 app.post("/login", (req: Request, res: Response, next: NextFunction): void => {
   passport.authenticate("local", (err: Error, user: UserInstance): void => {

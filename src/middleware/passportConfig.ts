@@ -37,7 +37,7 @@ passport.use(
         });
 
         if (user !== null) {
-          done(null, user);
+          return done(null, user);
         }
 
         await sequelize.transaction(
@@ -49,11 +49,11 @@ passport.use(
               },
               { transaction: t }
             );
-            done(null, users);
+            return done(null, users);
           }
         );
       } catch (error) {
-        done(false, error);
+        return done(false, error);
       }
     }
   )
