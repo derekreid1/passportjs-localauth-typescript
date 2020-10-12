@@ -1,0 +1,25 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: self-hosted
+    # Tests against node version
+    strategy: 
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: Typescript compiler
+        uses: iCrawl/action-tsc@v1 
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
+      - run: npm i
+      - run: npm start dev
