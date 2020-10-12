@@ -1,11 +1,9 @@
 import { Router, Request, Response } from "express";
 import sequelize from "../../middleware/database";
 import User from "../../models/user";
-import axios from "axios";
-import passport from "passport";
-const router = Router();
+const Userrouter = Router();
 
-router.route("/users").get(getUsers).post(createUser);
+Userrouter.route("/users").get(getUsers).post(createUser);
 
 async function getUsers(req: Request, res: Response): Promise<void> {
   try {
@@ -38,4 +36,4 @@ async function createUser(req: Request, res: Response): Promise<void> {
   }
 }
 
-export default router;
+export default Userrouter;
