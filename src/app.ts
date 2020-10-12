@@ -3,20 +3,21 @@ import express, { Request, Response, NextFunction } from "express";
 import passport from "./middleware/passportConfig";
 import session from "express-session";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import User, { UserInstance } from "./models/user";
 import ensureAuthentication from "./middleware/ensureAuthentication";
 import expressLayouts from "express-ejs-layouts";
-
+import router from "./routes/controllers/usercontroller";
+import { UserInstance } from "./models/user";
+import sqliteStoryFactory from "express-session-sqlite";
 dotenv.config();
 
+const SqliteStore = sqliteStoryFactory(session);
 const app = express();
 const port = process.env.SERVER_PORT;
 
 app.use(expressLayouts);
 app.use(express.static("public"));
 app.use("/css", express.static(__dirname + "public/css"));
-
+app.use("/js", express.static(__dirname + "public/js"));
 app.set("layout", "./layouts/full-width.ejs");
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
@@ -29,10 +30,10 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(express.json());
-app.use(cookieParser("secretcode"));
+
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(router);
 
 app.get("/about", (req: Request, res: Response) => {
   res.render("about", { layout: "./layouts/sidebar", title: "About" });
@@ -51,12 +52,39 @@ app.get(
 );
 
 app.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+  })
+);
+
+app.get(
+  "/auth/google/redirect",
+  passport.authenticate("google"),
+  (req: Request, res: Response) => {
+    res.redirect("/dashboard");
+  }
+);
+
+app.get(
   "/dashboard",
   ensureAuthentication,
   (req: Request, res: Response): void => {
     const user = req.user as UserInstance;
     res.render("dashboard", { user, title: "Dashboard" });
   }
+);
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/auth/google/success",
+    failureRedirect: "/auth/google/failure",
+  })
 );
 
 app.post("/login", (req: Request, res: Response, next: NextFunction): void => {
@@ -73,11 +101,6 @@ app.post("/login", (req: Request, res: Response, next: NextFunction): void => {
     }
   })(req, res, next);
 });
-
-User.create({
-  username: "admin",
-  password: "admin",
-}).catch((err: Error) => console.log(err));
 
 app.listen(port, () =>
   console.log(`Server running at http://localhost:${port}`)
