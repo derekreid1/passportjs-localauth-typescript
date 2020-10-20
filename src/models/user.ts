@@ -45,7 +45,7 @@ export default User;
 */
 
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../middleware/databaseConnection";
+import sequelize from "../middleware/database";
 import bcrypt from "bcrypt";
 
 class User extends Model {

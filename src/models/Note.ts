@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../middleware/databaseConnection";
+import sequelize from "../middleware/database";
 import Resource from "./Resource";
 
 class Note extends Model {

@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../middleware/databaseConnection";
+import sequelize from "../middleware/database";
 
 class Tag extends Model {
   public id: number;
