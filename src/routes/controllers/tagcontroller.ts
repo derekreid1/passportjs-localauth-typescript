@@ -3,7 +3,7 @@ import Tag from "../../models/Tag";
 
 
 /**
- * The resource controller is responsible for handling the HTTP requests.
+ * The tag controller is responsible for handling the HTTP requests.
  * Examples would be GET, POST, PUT, DELETE.
  */
 class TagController {
@@ -16,7 +16,7 @@ class TagController {
     }
   
     /**
-     * Creates the routes for the resource Controller
+     * Creates the routes for the tag Controller
      * Ex. GET, PUT, POST, UPDATE, etc
      */
     public initializeRoutes(): void {
@@ -32,10 +32,10 @@ class TagController {
       // Need to add patch
     }
   
-    // Goes to route /api/resources
+    // Goes to route /api/tags
   
     /**
-     * Grabs all resources in the database and sends them as a response in json
+     * Grabs all tags in the database and sends them as a response in json
      * @param request HTTP browser request
      * @param response HTTP browser response
      */
@@ -44,8 +44,8 @@ class TagController {
       response: Response
     ): Promise<void> => {
       try {
-        const resource = await Tag.findAll(); // Grabs all resources
-        response.json(resource);
+        const tag = await Tag.findAll(); // Grabs all tags
+        response.json(tag);
       } catch (err) {
         response.status(400).json({ message: "Something went wrong" });
       }
@@ -112,7 +112,7 @@ class TagController {
   
         if (updated) {
           const updatedTag = await Tag.findOne({ where: { id: id } }); // Grab the updated tag
-          response.status(200).json({ resource: updatedTag }); // Return the updated tag
+          response.status(200).json({ tag: updatedTag }); // Return the updated tag
         } else {
           response
             .status(404)
@@ -124,7 +124,7 @@ class TagController {
     };
   
     /**
-     * Deletes a resource based off the ID provided
+     * Deletes a tag based off the ID provided
      * @param request HTTP browser request
      * @param response HTTP browser response
      */
@@ -136,7 +136,7 @@ class TagController {
         const { id } = request.params; // Destructure the object to only grab the id coming from the request
         const deleted = await Tag.destroy({
           where: { id: id },
-        }); // Delete the resource with the specified id
+        }); // Delete the tag with the specified id
         if (deleted) {
           response.status(204).send("Tag Deleted");
         } else {
