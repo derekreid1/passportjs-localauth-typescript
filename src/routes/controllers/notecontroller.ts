@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import Note from "../../models/Note";
+import Resource from "models/Resource";
 
 
 /**
@@ -117,6 +118,28 @@ class NoteController {
           response
             .status(404)
             .send("Note with the specified ID does not exist"); // note does not exist
+        }
+      } catch (error) {
+        response.status(500).send(error.message);
+      }
+    };
+
+  //To get all notes and resources
+    getNotesandResources = async (
+      request: Request,
+      response: Response
+    ): Promise<void> => {
+      try {
+        const { id } = request.params; // Destructure the request.params object and grab only id
+        const resource = await Resource.findOne({
+          where: { id: id },
+          include: Note,
+        }); // Grabs the resource where the id is 0
+  
+        if (resource) {
+          response.status(200).json(resource);
+        } else {
+          response.status(404).send("Resource with the specified ID does not exist");
         }
       } catch (error) {
         response.status(500).send(error.message);
