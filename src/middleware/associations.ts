@@ -11,16 +11,19 @@ async function Associations(): Promise<void> {
     User.hasMany(Group, { foreignKey: "creatorid", sourceKey: "id" });
     Group.belongsTo(User, { foreignKey: "creatorid", targetKey: "id" });
 
+    //User and Resource 
     User.hasMany(Resource, { foreignKey: "creatorid", sourceKey: "id" });
     Resource.belongsTo(User, { foreignKey: "creatorid", targetKey: "id" });
 
     // Associations for Resource and Group
+    Group.hasMany(Resource);
     Resource.belongsToMany(Group, {
       through: "groupresources",
       timestamps: false,
     });
 
     // Associations for Tag and Group
+    Group.hasMany(Tag);
     Tag.belongsToMany(Group, {
       through: "grouptag",
       timestamps: false,
